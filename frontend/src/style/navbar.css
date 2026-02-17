@@ -1,0 +1,195 @@
+/* Navbar Container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-primary);
+    padding: var(--space-3) var(--space-5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+    height: var(--header-height);
+    transition: background-color var(--transition-normal);
+}
+
+/* Brand / Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 40px;
+    transition: transform var(--transition-fast);
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+/* Search Form */
+.navbar-search {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 500px;
+    margin: 0 var(--space-5);
+    position: relative;
+}
+
+.navbar-search input {
+    width: 100%;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    font-size: var(--text-base);
+    color: var(--color-gray-800);
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.navbar-search input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.navbar-search button {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    transition: background-color var(--transition-fast);
+}
+
+.navbar-search button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Navigation Links */
+.navbar-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.navbar-link a,
+.navbar-link .nav-item {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-base);
+    transition: color var(--transition-fast);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+}
+
+.navbar-link a:hover,
+.navbar-link a.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Cart Badge */
+.nav-cart-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: var(--color-error);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-primary);
+}
+
+/* Mobile Toggle */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.navbar-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: white;
+    border-radius: 2px;
+    transition: all var(--transition-fast);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar-search {
+        display: none;
+        /* Hide search on mobile initally, or move it */
+    }
+
+    .navbar-toggle {
+        display: flex;
+    }
+
+    .navbar-link {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background-color: var(--color-primary);
+        flex-direction: column;
+        align-items: center;
+        padding: var(--space-5);
+        gap: var(--space-5);
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all var(--transition-normal);
+        z-index: 999;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .navbar-link.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Logo Text Styles */
+.navbar-logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    /* Matches navbar theme */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .navbar-logo-text {
+        font-size: 1.1rem;
+    }
+}
