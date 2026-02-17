@@ -16,7 +16,7 @@ const Footer = () => {
                 </ul>
             </div>
             <div className="footer-info">
-                <p>&copy; 2024 Pavan kalyan Mart. All right reserved.</p>
+                <p>&copy; 2026 Pavan kalyan Mart. All right reserved.</p>
             </div>
         </footer>
     )
