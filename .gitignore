@@ -47,3 +47,7 @@ Thumbs.db
 .env
 .env.local
 .env.production
+
+Pics/*
+seeder.js
+cleaner.js
