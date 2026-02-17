@@ -5,7 +5,7 @@ import ApiService from "../../service/ApiService";
 
 
 const EditProductPage = () => {
-    const {productId} = useParams();
+    const { productId } = useParams();
     const [image, setImage] = useState(null);
     const [categories, setCategories] = useState([]);
     const [categoryId, setCategoryId] = useState('');
@@ -13,34 +13,36 @@ const EditProductPage = () => {
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
     const [price, setPrice] = useState('');
+    const [quantity, setQuantity] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         ApiService.getAllCategory().then((res) => setCategories(res.categoryList));
 
         if (productId) {
-            ApiService.getProductById(productId).then((response)=>{
+            ApiService.getProductById(productId).then((response) => {
                 setName(response.product.name);
                 setDescription(response.product.description);
                 setPrice(response.product.price);
+                setQuantity(response.product.quantity);
                 setCategoryId(response.product.categoryId);
                 setImageUrl(response.product.imageUrl);
             })
         }
     }, [productId]);
 
-    const handleImageChange = (e) =>{
+    const handleImageChange = (e) => {
         setImage(e.target.files[0]);
         setImageUrl(URL.createObjectURL(e.target.files[0]));
     };
 
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            if(image){
+            if (image) {
                 formData.append('image', image);
             }
             formData.append('productId', productId);
@@ -48,6 +50,7 @@ const EditProductPage = () => {
             formData.append('name', name);
             formData.append('description', description);
             formData.append('price', price);
+            formData.append('quantity', quantity);
 
             const response = await ApiService.updateProduct(formData);
             if (response.status === 200) {
@@ -63,35 +66,40 @@ const EditProductPage = () => {
         }
     }
 
-    return(
+    return (
         <form onSubmit={handleSubmit} className="product-form">
             <h2>Edit Produc</h2>
             {message && <div className="message">{message}</div>}
-            <input type="file" onChange={handleImageChange}/>
+            <input type="file" onChange={handleImageChange} />
             {imageUrl && <img src={imageUrl} alt={name} />}
-            <select value={categoryId} onChange={(e)=> setCategoryId(e.target.value)}>
+            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
                 <option value="">Select Category</option>
-                {categories.map((cat)=>(
+                {categories.map((cat) => (
                     <option value={cat.id} key={cat.id}>{cat.name}</option>
                 ))}
             </select>
 
-            <input type="text" 
+            <input type="text"
                 placeholder="Product name"
                 value={name}
-                onChange={(e)=> setName(e.target.value)} />
+                onChange={(e) => setName(e.target.value)} />
 
-                <textarea 
+            <textarea
                 placeholder="Description"
                 value={description}
-                onChange={(e)=> setDescription(e.target.value)}/>
+                onChange={(e) => setDescription(e.target.value)} />
 
-                <input type="number" 
+            <input type="number"
                 placeholder="Price"
                 value={price}
-                onChange={(e)=> setPrice(e.target.value)} />
+                onChange={(e) => setPrice(e.target.value)} />
 
-                <button type="submit">Update</button>
+            <input type="number"
+                placeholder="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)} />
+
+            <button type="submit">Update</button>
         </form>
     );
 }
