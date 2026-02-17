@@ -45,13 +45,15 @@ public class AwsS3Service {
     }
 
     public String saveImageToS3(MultipartFile photo) {
+        java.io.File tempFile = null;
         try {
             String s3FileName = photo.getOriginalFilename();
-            InputStream inputStream = photo.getInputStream();
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(photo.getContentType()); // Use actual content type
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3FileName, inputStream, metadata);
+            // Convert MultipartFile to Temp File to avoid Stream Reset issues on Retry
+            tempFile = java.io.File.createTempFile("upload_", s3FileName);
+            photo.transferTo(tempFile);
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3FileName, tempFile);
             s3Client.putObject(putObjectRequest);
 
             // Return the Key (filename) instead of the full URL for private buckets
@@ -60,6 +62,10 @@ public class AwsS3Service {
         } catch (IOException e) {
             log.error("Error uploading to S3", e);
             throw new RuntimeException("Unable to upload image to s3 bucket: " + e.getMessage());
+        } finally {
+            if (tempFile != null && tempFile.exists()) {
+                tempFile.delete();
+            }
         }
     }
 
