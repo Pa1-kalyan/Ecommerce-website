@@ -12,6 +12,7 @@ const AddProductPage = () => {
     const [description, setDescription] = useState('');
     const [message, setMessage] = useState('');
     const [price, setPrice] = useState('');
+    const [quantity, setQuantity] = useState('');
 
     const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const AddProductPage = () => {
             formData.append('name', name);
             formData.append('description', description);
             formData.append('price', price);
+            formData.append('quantity', quantity);
 
             const response = await ApiService.addProduct(formData);
             if (response.status === 200) {
@@ -47,7 +49,7 @@ const AddProductPage = () => {
         }
     }
 
-    return(
+    return (
         <div>
             <form onSubmit={handleSubmit} className="product-form">
                 <h2>Add Product</h2>
@@ -55,24 +57,29 @@ const AddProductPage = () => {
                 <input type="file" onChange={handleImage} />
                 <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} >
                     <option value="">Select Category</option>
-                    {categories.map((cat)=>(
+                    {categories.map((cat) => (
                         <option value={cat.id} key={cat.id}>{cat.name}</option>
                     ))}
                 </select>
-                <input type="text" 
-                placeholder="Product name"
-                value={name}
-                onChange={(e)=> setName(e.target.value)} />
+                <input type="text"
+                    placeholder="Product name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)} />
 
-                <textarea 
-                placeholder="Description"
-                value={description}
-                onChange={(e)=> setDescription(e.target.value)}/>
+                <textarea
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)} />
 
-                <input type="number" 
-                placeholder="price"
-                value={price}
-                onChange={(e)=> setPrice(e.target.value)} />
+                <input type="number"
+                    placeholder="price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)} />
+
+                <input type="number"
+                    placeholder="Quantity"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)} />
 
                 <button type="submit">Add Product</button>
             </form>
