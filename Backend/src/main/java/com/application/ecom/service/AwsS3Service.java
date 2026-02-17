@@ -33,6 +33,9 @@ public class AwsS3Service {
     @Value("${aws.s3.secrete}")
     private String awsS3SecreteKey;
 
+//    @Value("${aws.s3.region}")
+//    private String awsS3Region;
+
     private AmazonS3 s3Client;
 
     @PostConstruct
@@ -47,7 +50,11 @@ public class AwsS3Service {
     public String saveImageToS3(MultipartFile photo) {
         java.io.File tempFile = null;
         try {
-            String s3FileName = photo.getOriginalFilename();
+            // Sanitize filename: Replace spaces with underscores to prevent Signature
+            // Mismatch issues
+            String s3FileName = photo.getOriginalFilename().replaceAll("\\s+", "_");
+
+            log.info("Uploading file to S3: Bucket={}, Key={}, Region={}", bucketName, s3FileName, "EU_NORTH_1");
 
             // Convert MultipartFile to Temp File to avoid Stream Reset issues on Retry
             tempFile = java.io.File.createTempFile("upload_", s3FileName);
